@@ -1,0 +1,51 @@
+kind: "HorizontalPodAutoscaler"
+apiVersion: "autoscaling/v1"
+metadata:
+  name: pyjwt-autoscaling-app-hpa
+spec:
+  scaleTargetRef:
+    kind: DeploymentConfig
+    name: pyjwt-autoscaling-app-dc
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 50
+---
+kind: Route
+apiVersion: v1
+metadata:
+  name: pyjwt-autoscaling-app-route
+spec:
+  to:
+    kind: Service
+    name: pyjwt-autoscaling-app-svc
+---
+kind: "Service"
+apiVersion: "v1"
+metadata:
+  name: pyjwt-autoscaling-app-svc
+spec:
+  selector:
+    name: pyjwt-autoscaling-app-dc
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5000
+---
+kind: "DeploymentConfig"
+apiVersion: "v1"
+metadata:
+  name: "pyjwt-autoscaling-app-dc"
+spec:
+  template:
+    metadata:
+      labels:
+        name: "pyjwt-autoscaling-app-dc"
+    spec:
+      containers:
+        - name: "pyjwt-autoscaling-app"
+          image: "ilysenkogd/pyjwt:demo"
+          ports:
+            - containerPort: 5000
+              protocol: "TCP"
+  strategy:
+    type: "Rolling"
