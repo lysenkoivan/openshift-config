@@ -13,21 +13,21 @@ oc project testproject
 ```
 
 ## Simple Deployment
-#### Creation Steps:
-##### Create our resources:
+#### Create our resources:
 ```
 oc create -f simple-app.yml
 ```
-##### Create a route for our service:
+
+## Auto scaling Deployment
+#### Create our resources:
 ```
-oc expose service pyjwt-app-svc
+oc create -f autoscaling-app.yml
 ```
-##### Use route to get an access in a browser:
-```
-oc start-build docker-build
-```
-#### Testing Steps:
+
+### Testing Deployments Steps:
 ##### Go to `/auth` to get token.
-##### Go to  `/unprotected` and check the access.
-##### Go to  `/protected?token=<put_token_here>` and check the access.
+##### Go to `/unprotected` and check the access.
+##### Go to `/protected?token=<token>` and check the access.
+##### Go to `/memory-usage/<memories_mb>?time=<seconds>` to check high availability or auto scaling by memory usage.
+##### Go to `/cpu-usage/<cores_number>?time=<seconds>` to check  high availability or auto scaling by cpu usage.
 
