@@ -16,7 +16,7 @@ oc project testproject
 #### Creation Steps:
 ##### Create our resources:
 ```
-oc create -f docker.yml
+oc create -f docker.yaml
 ```
 ##### Wait until our build will be completed:
 ```
@@ -38,7 +38,7 @@ oc get build
 
 ##### Create our resources:
 ```
-oc create -f pipeline-novice.yml
+oc create -f pipeline-novice.yaml
 ```
 ##### Wait until our build will be completed:
 ```
@@ -56,7 +56,7 @@ oc get build
 #### Intermediate and Advanced Creation Steps:
 ##### Create our resources:
  ```
-oc create -f pipeline-intermediate.yml / oc create -f pipeline-advanced.yml
+oc create -f pipeline-intermediate.yaml / oc create -f pipeline-advanced.yaml
 ```
 ##### Wait until our build will be completed:
 ```
@@ -87,7 +87,7 @@ oc policy remove-role-from-group system:build-strategy-custom system:authenticat
 #### Creation Steps:
 ##### Create our resources: 
 ```
-oc create -f custom.yml
+oc create -f custom.yaml
 ```
 ##### Wait until our build will be completed:
 ```
