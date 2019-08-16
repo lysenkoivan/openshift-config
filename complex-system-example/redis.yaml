@@ -1,0 +1,43 @@
+kind: Route
+apiVersion: v1
+metadata:
+  name: redis-route
+spec:
+  to:
+    kind: Service
+    name: redis-svc
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: redis-svc
+spec:
+  selector:
+    name: redis-dc
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9000
+---
+kind: DeploymentConfig
+apiVersion: v1
+metadata:
+  name: redis-dc
+spec:
+  template:
+    metadata:
+      labels:
+        name: redis-dc
+    spec:
+      containers:
+        - name: redis
+          image: redis
+          ports:
+            - containerPort: 3306
+              protocol: TCP
+          env:
+            - name: "redis_ROOT_PASSWORD"
+              valueFrom:
+                configMapKeyRef:
+                  name: connectins-config
+                  key: redis.password

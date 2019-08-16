@@ -1,0 +1,58 @@
+kind: Route
+apiVersion: v1
+metadata:
+  name: flask-app-route
+spec:
+  to:
+    kind: Service
+    name: flask-app-svc
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: flask-app-svc
+spec:
+  selector:
+    name: flask-app-dc
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+---
+kind: DeploymentConfig
+apiVersion: v1
+metadata:
+  name: flask-app-dc
+spec:
+  template:
+    metadata:
+      labels:
+        name: flask-app-dc
+    spec:
+      containers:
+        - name: flask-app
+          image: ilysenkogd/pyjwt:demo
+          ports:
+            - containerPort: 5000
+              protocol: TCP
+          env:
+            - name: "REDIS_HOST"
+              valueFrom:
+                configMapKeyRef:
+                  name: connectins-config
+                  key: redis.host
+            - name: "REDIS_PORT"
+              valueFrom:
+                configMapKeyRef:
+                  name: connectins-config
+                  key: redis.port
+            - name: "REDIS_DB"
+              valueFrom:
+                configMapKeyRef:
+                  name: connectins-config
+                  key: redis.db
+            - name: "REDIS_PASSWORD"
+              valueFrom:
+                configMapKeyRef:
+                  name: connectins-config
+                  key: redis.password

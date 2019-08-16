@@ -1,0 +1,63 @@
+kind: Route
+apiVersion: v1
+metadata:
+  name: spring-app-route
+spec:
+  to:
+    kind: Service
+    name: spring-app-svc
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: spring-app-svc
+spec:
+  selector:
+    name: spring-app-dc
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+---
+kind: DeploymentConfig
+apiVersion: v1
+metadata:
+  name: spring-app-dc
+spec:
+  template:
+    metadata:
+      labels:
+        name: spring-app-dc
+    spec:
+      containers:
+        - name: spring-app
+          image: ilysenkogd/pyjwt:demo
+          ports:
+            - containerPort: 5000
+              protocol: TCP
+          env:
+            - name: "MYSQL_HOST"
+              valueFrom:
+                configMapKeyRef:
+                  name: connectins-config
+                  key: mysql.host
+            - name: "MYSQL_PORT"
+              valueFrom:
+                configMapKeyRef:
+                  name: connectins-config
+                  key: mysql.port
+            - name: "MYSQL_DB"
+              valueFrom:
+                configMapKeyRef:
+                  name: connectins-config
+                  key: mysql.db
+            - name: "MYSQL_USER"
+              valueFrom:
+                configMapKeyRef:
+                  name: connectins-config
+                  key: mysql.user
+            - name: "MYSQL_PASSWORD"
+              valueFrom:
+                configMapKeyRef:
+                  name: connectins-config
+                  key: mysql.password

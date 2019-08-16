@@ -1,0 +1,43 @@
+kind: Route
+apiVersion: v1
+metadata:
+  name: mysql-route
+spec:
+  to:
+    kind: Service
+    name: mysql-svc
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: mysql-svc
+spec:
+  selector:
+    name: mysql-dc
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9000
+---
+kind: DeploymentConfig
+apiVersion: v1
+metadata:
+  name: mysql-dc
+spec:
+  template:
+    metadata:
+      labels:
+        name: mysql-dc
+    spec:
+      containers:
+        - name: mysql
+          image: mysql
+          ports:
+            - containerPort: 3306
+              protocol: TCP
+          env:
+            - name: "MYSQL_ROOT_PASSWORD"
+              valueFrom:
+                configMapKeyRef:
+                  name: connectins-config
+                  key: mysql.password

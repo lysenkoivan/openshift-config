@@ -1,0 +1,37 @@
+kind: Route
+apiVersion: v1
+metadata:
+  name: nodejs-app-route
+spec:
+  to:
+    kind: Service
+    name: nodejs-app-svc
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: nodejs-app-svc
+spec:
+  selector:
+    name: nodejs-app-dc
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9000
+---
+kind: DeploymentConfig
+apiVersion: v1
+metadata:
+  name: nodejs-app-dc
+spec:
+  template:
+    metadata:
+      labels:
+        name: nodejs-app-dc
+    spec:
+      containers:
+        - name: nodejs-app
+          image: ilysenkogd/jsjwt:demo
+          ports:
+            - containerPort: 9000
+              protocol: TCP
