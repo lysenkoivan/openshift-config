@@ -41,3 +41,8 @@ spec:
                 configMapKeyRef:
                   name: connectins-config
                   key: mysql.password
+            - name: "MYSQL_DATABASE"
+              valueFrom:
+                configMapKeyRef:
+                  name: connectins-config
+                  key: mysql.password
