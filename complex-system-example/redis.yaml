@@ -35,9 +35,3 @@ spec:
           ports:
             - containerPort: 3306
               protocol: TCP
-          env:
-            - name: "redis_ROOT_PASSWORD"
-              valueFrom:
-                configMapKeyRef:
-                  name: connectins-config
-                  key: redis.password
