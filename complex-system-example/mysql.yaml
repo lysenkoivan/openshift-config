@@ -35,9 +35,6 @@ spec:
           ports:
             - containerPort: 3306
               protocol: TCP
-          volumeMounts:
-            - name: "mysqlvol"
-              mountPath: "/var/lib/mysql"
           env:
             - name: "MYSQL_ROOT_PASSWORD"
               valueFrom:
@@ -49,30 +46,4 @@ spec:
                 configMapKeyRef:
                   name: connectins-config
                   key: mysql.password
-      volumes:
-        - name: "mysqlvol"
-          persistentVolumeClaim:
-            claimName: "mysqlclaim"
   replicas: 1
----
-kind: PersistentVolume
-apiVersion: v1
-metadata:
-  name: pv0003
-spec:
-  capacity:
-    storage: 100Mi
-  accessModes:
-    - ReadWriteOnce
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: mysqlclaim
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 100Mi
-  volumeName: pv0003
