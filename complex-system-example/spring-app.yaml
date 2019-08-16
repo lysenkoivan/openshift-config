@@ -17,7 +17,7 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 5000
+      targetPort: 8000
 ---
 kind: DeploymentConfig
 apiVersion: v1
@@ -33,7 +33,7 @@ spec:
         - name: spring-app
           image: ilysenkogd/javajwt:demo
           ports:
-            - containerPort: 5000
+            - containerPort: 8000
               protocol: TCP
           env:
             - name: "DB_HOST"
