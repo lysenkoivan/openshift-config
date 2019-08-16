@@ -56,3 +56,4 @@ spec:
                 configMapKeyRef:
                   name: connectins-config
                   key: redis.password
+  replicas: 1

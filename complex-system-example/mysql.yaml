@@ -46,3 +46,4 @@ spec:
                 configMapKeyRef:
                   name: connectins-config
                   key: mysql.password
+  replicas: 1

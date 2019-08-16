@@ -63,3 +63,4 @@ spec:
                   key: mysql.password
             - name: "JWT_SECRET"
               value: "thisissecret"
+  replicas: 1
